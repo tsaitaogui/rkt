@@ -68,4 +68,18 @@
       [(eq? ls2 '()) '()]
       [(eq? ls1 '()) '()]
       [else (cons (cons (car ls1) (car ls2)) (zip (cdr ls1) (cdr ls2)) )]
-    `)))
+    )))
+
+(define my-even?
+  (lambda (num)
+    (cond
+      [(eq? (modulo num 2) 0) #t]
+      [else #f]
+      )))
+
+(define my-filter
+  (lambda (pred ls)
+    (cond
+      [(cons )]
+      [else ]
+      )))
