@@ -86,3 +86,22 @@
        '())
        ]
       )))
+
+
+
+(define list-index-ofv
+  (let ([i 0])
+    (lambda (elem ls)
+      (cond
+        [(eq? ls '()) 'Bad]
+        [(if (eq? elem (car ls)) i (begin
+                                       (set! i (+ i 1))
+                                       (list-index-ofv elem (cdr ls))))]
+        )
+      ))
+  )
+
+;(let* ([x (list "Burroughs")]
+;         [y (cons "Rice" x)]
+;         [z (cons "Edgar" y)])
+;    (list x y z))
