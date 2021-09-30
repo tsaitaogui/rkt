@@ -80,6 +80,9 @@
 (define my-filter
   (lambda (pred ls)
     (cond
-      [(cons )]
-      [else ]
+      [(eq? ls '()) '()]
+      [(if (pred (car ls))
+       (cons (car ls) (my-filter pred (cdr ls)))
+       '())
+       ]
       )))
