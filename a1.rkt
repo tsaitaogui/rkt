@@ -94,13 +94,25 @@
     (lambda (elem ls)
       (cond
         [(eq? ls '()) 'Bad]
-        [(if (eq? elem (car ls)) i (begin
-                                       (set! i (+ i 1))
-                                       (list-index-ofv elem (cdr ls))))]
+        [(eq? elem (car ls)) i]
+        [else (begin
+               (set! i (+ i 1))
+               (list-index-ofv elem (cdr ls)))]
         )
       ))
   )
 
+(define my-append
+  (lambda (ls1 ls2)
+      [if (eq? ls1 '())
+             [if (eq? ls2 '())
+                 '()
+                 (cons (car ls2) (my-append (cdr ls2)))    
+                 ]
+             (cons (car ls1) (my-append (cdr ls1)))
+             ]
+      
+    ))
 ;(let* ([x (list "Burroughs")]
 ;         [y (cons "Rice" x)]
 ;         [z (cons "Edgar" y)])
