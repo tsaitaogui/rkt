@@ -113,6 +113,13 @@
              ]
       
     ))
+
+
+(define my-reverse
+  (let ([foo (lambda (a) (print a))]
+        [bar 5])
+    (lambda () (foo bar))
+  ))
 ;(let* ([x (list "Burroughs")]
 ;         [y (cons "Rice" x)]
 ;         [z (cons "Edgar" y)])
