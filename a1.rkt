@@ -114,12 +114,38 @@
       
     ))
 
+(define (atom? x)
+  (and (not (pair? x))
+       (not (null? x))))
+  
+
+;(define my-reverse
+;  (let ([foo (lambda (ls) (
+;                           (+ 1 1)
+;                           ))]
+;        [bar (lambda (ls) (
+;                           (if (atom? ls)
+;                               (list ls)
+;                               (list (bar (cdr ls)) (list (car ls)))
+;                               )
+;                           ))])
+;    (lambda (ls) (bar ls))
+;  ))
+
+(define cat
+  (lambda (ls elem)
+    (if (eq? (length ls) 1)
+        (list (car ls) elem)
+    (cons (car ls) (cat (cdr ls) elem)))
+        ))
 
 (define my-reverse
-  (let ([foo (lambda (a) (print a))]
-        [bar 5])
-    (lambda () (foo bar))
-  ))
+  (lambda (ls)
+    (cond
+      [(eq? (length ls) 1) (car ls)]
+      [(eq? (length ls) 2) (list (cadr ls) (car ls))]
+      [else (cat (my-reverse (cdr ls)) (car ls))]
+    )))
 ;(let* ([x (list "Burroughs")]
 ;         [y (cons "Rice" x)]
 ;         [z (cons "Edgar" y)])
