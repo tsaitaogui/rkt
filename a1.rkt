@@ -107,9 +107,9 @@
       [if (eq? ls1 '())
              [if (eq? ls2 '())
                  '()
-                 (cons (car ls2) (my-append (cdr ls2)))    
+                 (cons (car ls2) (my-append ls1 (cdr ls2)))    
                  ]
-             (cons (car ls1) (my-append (cdr ls1)))
+             (cons (car ls1) (my-append (cdr ls1) ls2))
              ]
       
     ))
@@ -134,7 +134,14 @@
     (lambda (ls) (reverse ls))
   ))
 
-
+(define repeat
+  (lambda (ls times)
+  (if (zero? times)
+      '()
+      ( my-append ls (repeat ls (- times 1)))
+      ))
+  )
+(repeat '(1 2 3) 3)
 ;(let* ([x (list "Burroughs")]
 ;         [y (cons "Rice" x)]
 ;         [z (cons "Edgar" y)])
