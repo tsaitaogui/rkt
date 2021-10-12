@@ -141,7 +141,28 @@
       ( my-append ls (repeat ls (- times 1)))
       ))
   )
-(repeat '(1 2 3) 3)
+
+(define same-lists*
+  (lambda (ls1 ls2)
+    (cond
+      [(and (null? ls1) (null? ls2)) #t]
+      [(and (null? ls1) (not (null? ls2))) #f]
+      [(and (not (null? ls1)) (null? ls2)) #f]
+      [else (cond
+          [(eq? (car ls1) (car ls2)) (same-lists* (cdr ls1) (cdr ls2))]
+          [(and (list? ls1) (not (list? ls2))) #f]
+          [(and (not (list? ls1)) (list? ls2)) #f]
+          [else
+             (if (same-lists* (car ls1) (car ls2))
+                  (same-lists* (cdr ls1) (cdr ls2))
+                  #f
+                  )]
+     )]
+    )))
+;(repeat '(1 2 3) 3)
+
+
+
 ;(let* ([x (list "Burroughs")]
 ;         [y (cons "Rice" x)]
 ;         [z (cons "Edgar" y)])
