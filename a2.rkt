@@ -1,3 +1,4 @@
+#lang racket
 (define list-ref
   (lambda (ls n)
     (letrec
@@ -7,3 +8,19 @@
                         (cdr (nth-cdr (- n 1)))
                     ))])
       (car (nth-cdr n)))))
+
+(define union
+  (lambda (l1 l2)
+    (define foo
+      (lambda (ls)
+        (cond
+          [(null? ls) '()]
+          [else (if (memv (car ls) (cdr ls))
+            (foo (cdr ls))
+            (cons (car ls) (foo (cdr ls)))
+        )]
+        )
+    )
+   )
+    (foo (append l1 l2)
+    )))
