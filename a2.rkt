@@ -24,3 +24,19 @@
    )
     (foo (append l1 l2)
     )))
+
+(define stretch
+  (lambda (pred x)
+    (lambda (data)
+      (if (list? data)
+          (if (or (pred (car data))
+                  (eq? x (car data)
+                  ))
+              (cons (car data) (stretch (cdr data)))
+              (stretch (cdr data))
+          )
+          (or (pred data)
+              (eq? x data))
+      )
+    )))
+    
