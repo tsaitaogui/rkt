@@ -39,4 +39,13 @@
               (eq? x data))
       )
     )))
-    
+
+(define walk-symbol
+  (lambda (sym ls)
+    (if (assv sym ls)
+         (if (symbol? (cdr (assv sym ls)))
+              (walk-symbol (cdr (assv sym ls)) ls)
+              (cdr (assv sym ls))
+         )
+         sym
+    )))
