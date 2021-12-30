@@ -1,4 +1,5 @@
 #lang racket
+;1
 (define list-ref
   (lambda (ls n)
     (letrec
@@ -9,6 +10,7 @@
                     ))])
       (car (nth-cdr n)))))
 
+;2
 (define union
   (lambda (l1 l2)
     (define foo
@@ -25,6 +27,7 @@
     (foo (append l1 l2)
     )))
 
+;3
 (define stretch
   (lambda (pred x)
     (lambda (data)
@@ -40,6 +43,7 @@
       )
     )))
 
+;4
 (define walk-symbol
   (lambda (sym ls)
     (let ([assed (assv sym ls)])
@@ -50,3 +54,4 @@
          )
          sym
     ))))
+
