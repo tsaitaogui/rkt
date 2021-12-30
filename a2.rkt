@@ -55,3 +55,16 @@
          sym
     ))))
 
+;5
+(define lambda-exp?
+  (λ (E)
+    (letrec
+      ([p
+        (λ (e)
+          (match e
+            [(? symbol?) #t]
+            [`(lambda (,x) ,body) (and (symbol? x)
+                                       (p body))]
+            [`(,rator ,rand) (and (p rator) (p rand))]
+            [else #f]))])
+      (p E))))
