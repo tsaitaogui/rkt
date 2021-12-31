@@ -68,3 +68,16 @@
             [`(,rator ,rand) (and (p rator) (p rand))]
             [else #f]))])
       (p E))))
+
+;6
+(define var-occurs?
+  (lambda (sym lcExp)
+    (match lcExp
+      [(? symbol?) (eq? sym lcExp)]
+      [`(lambda (,x) ,body) (and (not (eq? sym x))
+                                 (var-occurs? sym body))]
+      [`(,rator ,rand) (or (var-occurs? sym rator)
+                            (var-occurs? sym rand))]
+      [else #f]
+    )
+  ))
