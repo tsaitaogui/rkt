@@ -167,3 +167,25 @@
 ;         [y (cons "Rice" x)]
 ;         [z (cons "Edgar" y)])
 ;    (list x y z))
+
+(define pow
+  (lambda (x)
+    (if (eq? x 0)
+        1
+        (* 2 (pow (- x 1))))))
+
+(define binary->natural
+  (lambda (list)
+    (letrec ([p
+       (lambda (exp ls)
+         (if (pair? ls)
+             (if (eq? (car ls) 1)
+                 (+ (pow exp) (p (+ 1 exp) (cdr ls)))
+                 (p (+ 1 exp) (cdr ls))
+                 )
+             0
+        ))
+      ])
+      (p 0 list)
+    )))
+
