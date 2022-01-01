@@ -81,3 +81,16 @@
       [else #f]
     )
   ))
+
+;7
+(define vars
+  (lambda (lcExp  [result '()])
+    (match lcExp
+      [(? symbol?) (set! result (cons lcExp result)) result]
+      [`(lambda (,x) ,body) (vars body result)]
+      [`(,rator ,rand) (append (vars rator result)
+                               (vars rand result))])
+  ))
+
+
+    
