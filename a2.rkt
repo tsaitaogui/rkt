@@ -92,5 +92,9 @@
                                (vars rand result))])
   ))
 
-
-    
+;8
+(define unique-vars
+  (lambda (lcExp)
+    (union (vars lcExp) '())
+  ))
+ 
