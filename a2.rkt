@@ -97,4 +97,15 @@
   (lambda (lcExp)
     (union (vars lcExp) '())
   ))
- 
+
+
+;9 todo
+(define var-occurs-free?
+ (lambda (sym lcExp)
+   (match lcExp
+     [(? symbol?) (eq? sym lcExp)]
+     [`(lambda (,x) ,body) (and (not (eq? x sym))
+                                (var-occurs-free? sym body))]
+     [`(,rator ,rand) (and (var-occurs-free? sym rator)
+                           (var-occurs-free? sym rand))]
+   )))
