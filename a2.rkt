@@ -99,13 +99,20 @@
   ))
 
 
-;9 todo
+;9
 (define var-occurs-free?
  (lambda (sym lcExp)
    (match lcExp
      [(? symbol?) (eq? sym lcExp)]
-     [`(lambda (,x) ,body) (and (not (eq? x sym))
-                                (var-occurs-free? sym body))]
-     [`(,rator ,rand) (and (var-occurs-free? sym rator)
+     [`(lambda (,x) ,body) (if (eq? sym x)
+                               (not (contains sym (vars body)))
+                               (var-occurs-free? sym body))]
+     [`(,rator ,rand) (or (var-occurs-free? sym rator)
                            (var-occurs-free? sym rand))]
    )))
+ ;(var-occurs-free? 'x '(lambda (x) x))
+
+;9-1
+(define contains
+  (lambda (t list)
+    (> (length (filter (lambda (x) (eq? x t)) list)) 0)))
