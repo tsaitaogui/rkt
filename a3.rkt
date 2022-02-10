@@ -15,15 +15,24 @@
                                (lc rand))]
             [else #f])))
 
-
+(define atom?
+  (λ (x)
+    (not (pair? x)
+         (null? x))))
 (define find
   (λ (assoc sym lv)
     (cond
-      [(eq? (car assoc) sym) (cons (car assoc) (append! (cdr assoc) sym lv))]
-      [(null? assoc) ]
-      [_ '()]
+      [(null? assoc) '()]
+      
+      [(eq? (caar assoc) sym)
+       
+         
+         (cons (car assoc) (cons (cdr assoc) lv))
+         ]
+      [else (cons (car assoc) (find (cdr assoc) sym lv))]
     )))
-  
+
+
 (lc '(lambda (a)
           (lambda (b)
             (lambda (c)
@@ -52,4 +61,5 @@
 
     
 
-(foo '((x (3 2 1))) 'x 0)
+;(foo '((x (3 2 1))) 'x 0)
+(find '((x 1 2 3) (y 1 2 4) (z 2 3)) 'y 5)
