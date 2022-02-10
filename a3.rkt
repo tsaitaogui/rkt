@@ -23,12 +23,8 @@
   (λ (assoc sym lv)
     (cond
       [(null? assoc) '()]
-      
       [(eq? (caar assoc) sym)
-       
-         
-         (cons (car assoc) (cons (cdr assoc) lv))
-         ]
+         (cons (cons (caar assoc) (append (cdar assoc) `(,lv))) (cdr assoc))]
       [else (cons (car assoc) (find (cdr assoc) sym lv))]
     )))
 
