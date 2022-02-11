@@ -3,29 +3,41 @@
 (define assoc '())
 (define ss 0)
 (define lc
-(λ (e)
+(λ (e assoc lv)
           (match e
-            [(? symbol?) (display e) (newline)]
+            [(? symbol?) (display assoc)
+                         (newline)]
             [`(lambda (,x) ,body) (begin
-                                    (set! ss (add1 ss))
-                                    (set! assoc (cons x assoc))
-                                       (lc body))]
+                                    (let ((sk (find assoc x)))
+                                      (if (null? sk)
+                                       (lc body `(,assoc (,x ,lv)) (add1 lv))
+                                       (lc body (construct assoc x (add1 lv)) (add1 lv))
+                                       )))]
             [`(,rator ,rand) (begin
-                               (lc rator)
-                               (lc rand))]
+                               (lc rator assoc (add1 lv))
+                               (lc rand assoc (add1 lv)))]
             [else #f])))
 
 (define atom?
   (λ (x)
     (not (pair? x)
          (null? x))))
+
 (define find
-  (λ (assoc sym lv)
+  (λ (assoc sym)
     (cond
       [(null? assoc) '()]
+      [(eq? (car assoc) sym) (car assoc)]
+      [else (find (cdr assoc) sym)])))
+
+(define construct
+  (λ (assoc sym lv)
+    (cond
+      [(null? assoc) (begin
+                       (display "ssss"))]
       [(eq? (caar assoc) sym)
          (cons (cons (caar assoc) (append (cdar assoc) `(,lv))) (cdr assoc))]
-      [else (cons (car assoc) (find (cdr assoc) sym lv))]
+      [else (cons (car assoc) (construct (cdr assoc) sym lv))]
     )))
 
 
@@ -37,7 +49,7 @@
                   (lambda (d)
                     (lambda (a)
                       (lambda (e)
-                        (((((a b) c) d) e) a))))))))))
+                        (((((a b) c) d) e) a))))))))) '() 0)
 
 
 (define foo
@@ -58,4 +70,4 @@
     
 
 ;(foo '((x (3 2 1))) 'x 0)
-(find '((x 1 2 3) (y 1 2 4) (z 2 3)) 'y 5)
+(construct '((x 1 2 3) (y 1 2 4) (z 2 3)) 'y 5)
