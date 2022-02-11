@@ -7,21 +7,12 @@
           (match e
             [(? symbol?) (display assoc)
                          (newline)]
-            [`(lambda (,x) ,body) (begin
-                                    (let ((sk (find assoc x)))
-                                      (if (null? sk)
-                                       (lc body `(,assoc (,x ,lv)) (add1 lv))
-                                       (lc body (construct assoc x (add1 lv)) (add1 lv))
-                                       )))]
+            [`(lambda (,x) ,body) (lc body (construct assoc x lv) (add1 lv))]
             [`(,rator ,rand) (begin
                                (lc rator assoc (add1 lv))
                                (lc rand assoc (add1 lv)))]
             [else #f])))
 
-(define atom?
-  (λ (x)
-    (not (pair? x)
-         (null? x))))
 
 (define find
   (λ (assoc sym)
@@ -30,11 +21,11 @@
       [(eq? (car assoc) sym) (car assoc)]
       [else (find (cdr assoc) sym)])))
 
+
 (define construct
   (λ (assoc sym lv)
     (cond
-      [(null? assoc) (begin
-                       (display "ssss"))]
+      [(null? assoc) `((,sym ,lv))]
       [(eq? (caar assoc) sym)
          (cons (cons (caar assoc) (append (cdar assoc) `(,lv))) (cdr assoc))]
       [else (cons (car assoc) (construct (cdr assoc) sym lv))]
