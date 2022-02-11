@@ -1,16 +1,13 @@
 #lang racket
 
-(define assoc '())
-(define ss 0)
+
 (define lc
 (λ (e assoc lv)
           (match e
-            [(? symbol?) (display assoc)
-                         (newline)]
-            [`(lambda (,x) ,body) (lc body (construct assoc x lv) (add1 lv))]
-            [`(,rator ,rand) (begin
-                               (lc rator assoc (add1 lv))
-                               (lc rand assoc (add1 lv)))]
+            [(? symbol?) `(var ,(- lv (find assoc e)))]
+            [`(lambda (,x) ,body) `(lambda ,(lc body (construct assoc x lv) (add1 lv)))]
+            [`(,rator ,rand) `(,(lc rator assoc lv)
+                               ,(lc rand assoc lv))]
             [else #f])))
 
 
@@ -18,7 +15,7 @@
   (λ (assoc sym)
     (cond
       [(null? assoc) '()]
-      [(eq? (car assoc) sym) (car assoc)]
+      [(eq? (caar assoc) sym) (cadar assoc)]
       [else (find (cdr assoc) sym)])))
 
 
@@ -27,7 +24,7 @@
     (cond
       [(null? assoc) `((,sym ,lv))]
       [(eq? (caar assoc) sym)
-         (cons (cons (caar assoc) (append (cdar assoc) `(,lv))) (cdr assoc))]
+         (cons (cons (caar assoc) (append `(,(add1 lv)) (cdar assoc) )) (cdr assoc))]
       [else (cons (car assoc) (construct (cdr assoc) sym lv))]
     )))
 
@@ -40,25 +37,5 @@
                   (lambda (d)
                     (lambda (a)
                       (lambda (e)
-                        (((((a b) c) d) e) a))))))))) '() 0)
+                        (((((a b) c) d) e) a)))))))))  '() 0)
 
-
-(define foo
-  (λ (l sym lv)
-    (if (eq? (caar l) sym)
-        (cons (caar l) (- (car (cadar l)) lv))
-        (foo (cdr l) sym (add1 lv))
-    )))
-
-(define bar
-  (λ (x)
-    `(,@x 1)))
-
-(bar '(+ 1 2))
-(bar `(+ 1 2))
-;(bar `(+ 1 2))
-
-    
-
-;(foo '((x (3 2 1))) 'x 0)
-(construct '((x 1 2 3) (y 1 2 4) (z 2 3)) 'y 5)
