@@ -7,7 +7,7 @@
       [else (binary-to-decimal-cps
              (cdr n)
              (lambda (v)
-              (+ v (* 2 (k (cdr n))))))]
+              (k (+ (car n) (* 2 v)))))]
       )))
 
 
