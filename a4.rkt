@@ -1,5 +1,5 @@
 #lang racket
-
+ (require racket/trace)
 ;1
 (define binary-to-decimal-cps
   (lambda (n k)
@@ -40,7 +40,7 @@
       [else (times-cps (cdr ls) (lambda (v)
                                   (k (* (car ls) v))))
        #;(* (car ls) (times (cdr ls)))])))
-
+(trace times-cps)
 (times-cps '(1 2 3 4 5) (empty-k))
 
 (times-cps '(1 2 3 0 3) (empty-k))
