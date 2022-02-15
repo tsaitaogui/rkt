@@ -56,13 +56,14 @@
                   (remv-first-9*-cps (car ls) (lambda (v)
                                                 (k v))))
           (remv-first-9*-cps (cdr ls) (lambda (v)
-                                        (cons (car ls) (k v))))]
+                                        (k (cons (car ls) v))))]
          [else (remv-first-9*-cps (car ls) (lambda (v)
-                                               (cons (k v) (cdr ls)))) ])]
+                                               (k (cons v (cdr ls))))) ])]
       [(eqv? (car ls) '9) (k (cdr ls))]
       [else (remv-first-9*-cps (cdr ls) (lambda (v)
-                                      (cons (car ls) (k v))))])))
+                                      (k (cons (car ls) v))))])))
 
+;(trace remv-first-9*-cps)
 (remv-first-9*-cps '((1 2 (3) 9)) (empty-k)) ; TODO
 (remv-first-9*-cps '(9 (9 (9 (9)))) (empty-k))
 (remv-first-9*-cps '(((((9) 9) 9) 9) 9) (empty-k))
