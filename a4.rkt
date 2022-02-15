@@ -62,8 +62,8 @@
       [(eqv? (car ls) '9) (k (cdr ls))]
       [else (remv-first-9*-cps (cdr ls) (lambda (v)
                                       (k (cons (car ls) v))))])))
-
+(display "----------------\n")
 ;(trace remv-first-9*-cps)
-(remv-first-9*-cps '((1 2 (3) 9)) (empty-k)) ; TODO
-(remv-first-9*-cps '(9 (9 (9 (9)))) (empty-k))
-(remv-first-9*-cps '(((((9) 9) 9) 9) 9) (empty-k))
+(remv-first-9*-cps '(1 (3) 9) (empty-k)) ; TODO
+;(remv-first-9*-cps '(9 (9 (9 (9)))) (empty-k))
+;(remv-first-9*-cps '(((((9) 9) 9) 9) 9) (empty-k))
