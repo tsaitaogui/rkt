@@ -73,7 +73,12 @@
   (lambda (ls k)
     (cond
       [(pair? ls)
-       (add1 (cons-cell-count-cps (cdr ls) (lambda (v)
-                                             (+ (k  (car ls) ) v))))]
-      [else 0])))
+       (add1 (+ (cons-cell-count-cps (car ls) (lambda (v)
+                                              v))
+                (cons-cell-count-cps (cdr ls) (lambda (v)
+                                                v))))]
+      [else (k 0)])))
+
+(cons-cell-count-cps '(1 2 3 4) (empty-k))
 (cons-cell-count-cps '(1 2 (3 (4) 5) 4 ()) (empty-k))
+
