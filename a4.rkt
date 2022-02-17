@@ -64,11 +64,11 @@
                                       (k (cons (car ls) v))))])))
 (display "----------------\n")
 ;(trace remv-first-9*-cps)
-(remv-first-9*-cps '((1 2 (3) 9)) (empty-k)) ; TODO
+(remv-first-9*-cps '((1 2 (3) 9)) (empty-k))
 (remv-first-9*-cps '(9 (9 (9 (9)))) (empty-k))
 (remv-first-9*-cps '(((((9) 9) 9) 9) 9) (empty-k))
 
-;5 false
+;5
 (define cons-cell-count-cps
   (lambda (ls k)
     (cond
