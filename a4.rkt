@@ -68,7 +68,7 @@
 (remv-first-9*-cps '(9 (9 (9 (9)))) (empty-k))
 (remv-first-9*-cps '(((((9) 9) 9) 9) 9) (empty-k))
 
-;5
+;5 false
 (define cons-cell-count-cps
   (lambda (ls k)
     (cond
@@ -82,3 +82,7 @@
 (cons-cell-count-cps '(1 2 3 4) (empty-k))
 (cons-cell-count-cps '(1 2 (3 (4) 5) 4 ()) (empty-k))
 
+(define log
+  (lambda (v)
+    (display v)
+    (newline)))
