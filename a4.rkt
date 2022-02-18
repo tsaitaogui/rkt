@@ -89,7 +89,9 @@
 (define find-cps
   (lambda (u s k)
     (let ((pr (assv u s)))
-      (if pr (k (find-cps (cdr pr) s (lambda (v) v))) u))))
+      (if pr (k (find-cps (cdr pr) s (lambda (v)
+                                       (if pr (k v) u)
+                                       ))) (k u)))))
 
 (find-cps 5 '((5 . a) (6 . b) (7 . c)) (lambda (v) v))
 (find-cps 7 '((5 . a) (6 . 5) (7 . 6)) (lambda (v) v))
