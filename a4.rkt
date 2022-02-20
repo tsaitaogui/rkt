@@ -91,8 +91,20 @@
     (let ((pr (assv u s)))
       (if pr (k (find-cps (cdr pr) s (lambda (v)
                                        (if pr (k v) u)
-                                       ))) (k u)))))
+                                       ))) u))))
 
 (find-cps 5 '((5 . a) (6 . b) (7 . c)) (lambda (v) v))
 (find-cps 7 '((5 . a) (6 . 5) (7 . 6)) (lambda (v) v))
 (find-cps 5 '((5 . 6) (9 . 6) (2 . 9))  (lambda (v) v))
+
+;7 TODO
+(define ack-cps
+  (lambda (m n k)
+    (cond
+      [(zero? m) (add1 n)]
+      [(zero? n) (ack-cps (sub1 m) 1 (lambda (v) v))]
+      [else (k (ack-cps (sub1 m) (ack-cps m (sub1 n) (lambda (v) (k v))) (lambda (v) v)))])))
+(ack-cps 2 2 (lambda (v) v))
+(ack-cps 3 2 (lambda (v) v))
+(ack-cps 3 3 (lambda (v) v))
+(ack-cps 3 4 (lambda (v) v))
