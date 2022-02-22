@@ -110,3 +110,23 @@
 (ack-cps 3 2 (lambda (v) v))
 (ack-cps 3 3 (lambda (v) v))
 (ack-cps 3 4 (lambda (v) v))
+
+;8
+(define fib-cps
+  (lambda (n k)
+    ((lambda (fib)
+       (k (fib fib n (lambda (v) v))))
+     (lambda (fib n k)
+       (cond
+	 [(zero? n) 0]
+	 [(zero? (sub1 n)) 1]
+	 [else (k (fib fib (sub1 n) (lambda (v)
+                                      (+ v (fib fib (sub1 (sub1 n)) (lambda (v) v))))))])))))
+
+;(+ (fib fib (sub1 n)) (fib fib (sub1 (sub1 n))))
+(fib-cps 3 (empty-k))
+(fib-cps 4 (empty-k))
+(fib-cps 5 (empty-k))
+(fib-cps 6 (empty-k))
+(fib-cps 7 (empty-k))
+(fib-cps 8 (empty-k))
