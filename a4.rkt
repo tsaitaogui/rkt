@@ -143,12 +143,11 @@
       (k (cdr pr))))
 
 (define foo
-(lambda (seed ans p g f k)                
-	 (if (p seed)
-	     ans
-	     (cons (g seed) (cons (f seed) ans)))))
+  (lambda (seed ans p g f k)                
+    (k (p seed (lambda (v)
+                  (if v
+                      ans
+                      (g seed (lambda (v) (cons v (f seed (lambda (v) (cons v ans))))))
+                      ))))))
 
-(define empty-k
-  (lambda ()
-    (lambda (v) v)))
-(foo '(a b c d e) "x" null? car cdr (empty-k))
+(foo '(a b c d e) "x" null?-cps car-cps cdr-cps (empty-k))
