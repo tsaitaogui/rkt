@@ -130,3 +130,25 @@
 (fib-cps 6 (empty-k))
 (fib-cps 7 (empty-k))
 (fib-cps 8 (empty-k))
+
+;9
+(define null?-cps
+    (lambda (ls k)
+      (k (null? ls))))
+(define car-cps
+    (lambda (pr k)
+      (k (car pr))))
+(define cdr-cps
+    (lambda (pr k)
+      (k (cdr pr))))
+
+(define foo
+(lambda (seed ans p g f k)                
+	 (if (p seed)
+	     ans
+	     (cons (g seed) (cons (f seed) ans)))))
+
+(define empty-k
+  (lambda ()
+    (lambda (v) v)))
+(foo '(a b c d e) "x" null? car cdr (empty-k))
