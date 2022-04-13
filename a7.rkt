@@ -6,12 +6,11 @@
 	((last-non-zero
 	   (lambda (ls)
 	     (cond
-               [(null? ls) (k)]
+               [(null? ls) '()]
                [(eq? (car ls) '0) (begin
-                           (set! k (lambda () (cdr ls))) (last-non-zero (cdr ls)))]
-               [else (begin
-                           (set! k (lambda () ls)) (last-non-zero (cdr ls)))
-                       ]
+                           (last-non-zero (cdr ls))
+                           (k (cdr ls)))]
+               [else (cons (car ls) (last-non-zero (cdr ls)))]
   	       ))))
 	(last-non-zero ls)))))
 (last-non-zero '(0))
